@@ -52,7 +52,22 @@ public class SettingsPanel extends JDialog {
         general.add(Box.createVerticalStrut(8));
         general.add(chanceLabel);
         general.add(chanceSlider);
-        add(general, BorderLayout.CENTER);
+        JPanel aiPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        aiPanel.setBorder(BorderFactory.createTitledBorder("AI (picks a random choice each round)"));
+        JCheckBox aiP1Box = new JCheckBox("Player 1", GameSettings.aiPlayer1);
+        JCheckBox aiP2Box = new JCheckBox("Player 2", GameSettings.aiPlayer2);
+        aiP1Box.addActionListener(e -> GameSettings.aiPlayer1 = aiP1Box.isSelected());
+        aiP2Box.addActionListener(e -> GameSettings.aiPlayer2 = aiP2Box.isSelected());
+        aiPanel.add(aiP1Box);
+        aiPanel.add(aiP2Box);
+
+        general.setAlignmentX(Component.LEFT_ALIGNMENT);
+        aiPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        JPanel sections = new JPanel();
+        sections.setLayout(new BoxLayout(sections, BoxLayout.Y_AXIS));
+        sections.add(general);
+        sections.add(aiPanel);
+        add(sections, BorderLayout.CENTER);
 
         pack();
         setLocationRelativeTo(owner);

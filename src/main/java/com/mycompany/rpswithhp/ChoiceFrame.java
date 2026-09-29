@@ -14,6 +14,8 @@ public class ChoiceFrame extends JFrame {
     private final JLabel p1Status = new JLabel("Not picked yet", SwingConstants.CENTER);
     private final JLabel p2Status = new JLabel("Not picked yet", SwingConstants.CENTER);
     private final JButton startButton = new JButton("Start Battle");
+    private final JButton[][] choiceButtons = new JButton[2][Choice.values().length];
+    private final boolean[] aiPicked = new boolean[2];
     // Konami code: Up Up Down Down Left Right Left Right B A
     private final int[] konami = {
         KeyEvent.VK_UP, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_DOWN,
@@ -57,6 +59,7 @@ public class ChoiceFrame extends JFrame {
         startButton.setEnabled(false);
         startButton.addActionListener(e -> startBattle());
         add(startButton, BorderLayout.SOUTH);
+        applyAiSettings();
 
         setSize(450, 250);
         setLocationRelativeTo(null);
@@ -66,7 +69,7 @@ public class ChoiceFrame extends JFrame {
                 handleSettingsCode(e.getKeyCode());
                 handleSparksCode(e.getKeyCode());
             }
-            return false;         // never swallow the key
+            return false;         
         };
         KeyboardFocusManager.getCurrentKeyboardFocusManager()
                 .addKeyEventDispatcher(konamiDispatcher);
@@ -78,6 +81,7 @@ public class ChoiceFrame extends JFrame {
 
         for (Choice c : Choice.values()) {
             JButton button = new JButton(c.name());
+            choiceButtons[player - 1][c.ordinal()] = button;
             button.addActionListener(e -> pick(player, c));
             panel.add(button);
         }
@@ -95,6 +99,36 @@ public class ChoiceFrame extends JFrame {
             p2Status.setText("Picked!");
         }
         startButton.setEnabled(p1Choice != null && p2Choice != null);
+    }
+    private boolean isAi(int player) {
+        return player == 1 ? GameSettings.aiPlayer1 : GameSettings.aiPlayer2;
+    }
+
+    private void applyAiSettings() {
+        for (int player = 1; player <= 2; player++) {
+            boolean ai = isAi(player);
+            for (JButton b : choiceButtons[player - 1]) {
+                b.setEnabled(!ai);
+            }
+
+            if (ai && !aiPicked[player - 1]) {
+                Choice[] all = Choice.values();
+                pick(player, all[(int) (Math.random() * all.length)]);
+                (player == 1 ? p1Status : p2Status).setText("AI picked!");
+                aiPicked[player - 1] = true;
+            } else if (!ai && aiPicked[player - 1]) {
+             
+                if (player == 1) {
+                    p1Choice = null;
+                    p1Status.setText("Not picked yet");
+                } else {
+                    p2Choice = null;
+                    p2Status.setText("Not picked yet");
+                }
+                aiPicked[player - 1] = false;
+                startButton.setEnabled(p1Choice != null && p2Choice != null);
+            }
+        }
     }
 
     private void startBattle() {
@@ -120,6 +154,7 @@ public class ChoiceFrame extends JFrame {
             if (settingsIndex == settingsCode.length) {
                 settingsIndex = 0;
                 new SettingsPanel(this).setVisible(true);
+                applyAiSettings();
             }
         } else {
             settingsIndex = (keyCode == settingsCode[0]) ? 1 : 0;
