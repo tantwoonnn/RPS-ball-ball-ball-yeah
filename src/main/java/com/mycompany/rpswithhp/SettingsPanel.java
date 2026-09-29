@@ -10,18 +10,18 @@ public class SettingsPanel extends JDialog {
             + "<small>(Enables critical hit chances when both players pick the same choice)</small></html>");
 
     public SettingsPanel(JFrame owner) {
-        super(owner, "Settings", true);                 // true = blocks the choice frame while open
+        super(owner, "Settings", true);               
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout(10, 10));
         ((JComponent) getContentPane()).setBorder(
                 BorderFactory.createEmptyBorder(10, 10, 0, 10));
 
-        // General Settings section
+  
         JPanel general = new JPanel();
         general.setLayout(new BoxLayout(general, BoxLayout.Y_AXIS));
         general.setBorder(BorderFactory.createTitledBorder("General Settings"));
 
-        // Black Flash chance slider (0% - 50%)
+  
         JLabel chanceLabel = new JLabel();
         JSlider chanceSlider = new JSlider(0, 50,
                 (int) Math.round(GameSettings.blackFlashChance * 100));
@@ -35,7 +35,7 @@ public class SettingsPanel extends JDialog {
             chanceLabel.setText("Black Flash chance per hit: " + chanceSlider.getValue() + "%");
         });
 
-        // Tie breaker checkbox (the slider is greyed out while it's off)
+  
         tieBreakerBox.setSelected(GameSettings.tieBreakersEnabled);
         chanceSlider.setEnabled(tieBreakerBox.isSelected());
         chanceLabel.setEnabled(tieBreakerBox.isSelected());
