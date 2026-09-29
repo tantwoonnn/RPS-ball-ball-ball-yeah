@@ -73,6 +73,6 @@ public enum Choice {
         }
         double rate = (m == Matchup.WEAK) ? 0.5 : 1.0;
         return String.format("Every hit makes the opponent bleed for %.1f hp per second "
-                + "for 5s. 4s cooldown.", rate);
+                + "for 5s. 7s cooldown.", rate);
     }
 }

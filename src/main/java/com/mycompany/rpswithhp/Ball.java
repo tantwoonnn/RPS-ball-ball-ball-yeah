@@ -52,7 +52,7 @@ public class Ball {
     private double bleedPerSec = 0;
     private long bleedEndTime = 0;
     private long lastBleedTick = 0;
-    private static final long BLEED_COOLDOWN_MS = 4000;   // scissors can't re-apply bleed right away
+    private static final long BLEED_COOLDOWN_MS = 7000;   
     private long bleedCooldownEnd = 0;
     private long slashFlashEnd = 0;  
     
