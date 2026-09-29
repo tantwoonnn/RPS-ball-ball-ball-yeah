@@ -33,7 +33,7 @@ public enum Choice {
 
     public double damageMultiplier(Matchup m) {
         if (m == Matchup.STRONG) {
-            return 1.5;
+            return 1.2;
         }
         return 1.0;
     }
@@ -51,7 +51,7 @@ public enum Choice {
                 return 1.0;
             }
             if (m == Matchup.WEAK) {
-                return 0.4;
+                return 0.5;
             }
             return 0.7;                 
         }

@@ -89,10 +89,10 @@ public class ChoiceFrame extends JFrame {
     private void pick(int player, Choice choice) {
         if (player == 1) {
             p1Choice = choice;
-            p1Status.setText("Picked " + choice);
+            p1Status.setText("Picked!");
         } else {
             p2Choice = choice;
-            p2Status.setText("Picked " + choice);
+            p2Status.setText("Picked!");
         }
         startButton.setEnabled(p1Choice != null && p2Choice != null);
     }
